@@ -8,7 +8,7 @@ import { ThemeToggle } from "./components/theme-toggle";
 import React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Scanner } from "./components/scanner";
-import { Usb } from "lucide-react";
+import { Usb, Settings as SettingIcon, Bell, Scan } from "lucide-react";
 
 export default function Home() {
   return (
@@ -20,13 +20,25 @@ export default function Home() {
         </h1>
         <ThemeToggle />
       </div>
-      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-        <Tabs defaultValue="monitor" aria-label="Options">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+        <Tabs defaultValue="monitor" aria-label="Options" className="col-span-3">
           <TabsList>
-            <TabsTrigger value="monitor">Monitor</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-            <TabsTrigger value="alerts">Alerts</TabsTrigger>
-            <TabsTrigger value="scanner">Scanner</TabsTrigger>
+            <TabsTrigger value="monitor">
+              <Usb className="mr-2 h-4 w-4" />
+              Monitor
+            </TabsTrigger>
+            <TabsTrigger value="settings">
+              <SettingIcon className="mr-2 h-4 w-4" />
+              Settings
+            </TabsTrigger>
+            <TabsTrigger value="alerts">
+              <Bell className="mr-2 h-4 w-4" />
+              Alerts
+            </TabsTrigger>
+            <TabsTrigger value="scanner">
+              <Scan className="mr-2 h-4 w-4" />
+              Scanner
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="monitor">
             <Monitor />
@@ -46,4 +58,3 @@ export default function Home() {
     </div>
   );
 }
-
