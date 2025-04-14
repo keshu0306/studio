@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
+import { Pause, Play, Disc, AlertTriangle, ShieldAlert } from "lucide-react";
 
 interface UsbDevice {
   id: string;
@@ -34,35 +35,46 @@ export const Monitor = () => {
     { id: "device-1", name: "USB Drive 1", port: 1 },
     { id: "device-2", name: "Keyboard", port: 2 },
   ]);
+  const [isTransferring, setIsTransferring] = useState(false);
+  const [malwareDetected, setMalwareDetected] = useState(false);
 
   useEffect(() => {
-    if (!isPaused) {
-      const interval = setInterval(() => {
+    let interval: any;
+
+    if (isTransferring && !isPaused && !malwareDetected) {
+      interval = setInterval(() => {
         setProgress((prevProgress) => {
           if (prevProgress < 100) {
             const newProgress = prevProgress + 5;
-            setDataTransferred(`${(newProgress * 10) / 100} MB`); // Simulate 10MB total
+            setDataTransferred(`${(newProgress * 0.1).toFixed(1)} MB`);
             return newProgress;
           } else {
             clearInterval(interval);
+            setIsOpen(false);
             return 100;
           }
         });
       }, 250);
 
-      // Simulate file format detection
       setTimeout(() => {
         setFileFormat("PDF");
       }, 1000);
 
-      // Simulate drive stats
-      setTotalSpace("1 GB");
-      setTransferSpeed("10 MB/s");
+      setTotalSpace("10 MB");
+      setTransferSpeed("0.4 MB/s");
       setIsOpen(true);
-
-      return () => clearInterval(interval);
+    } else {
+      clearInterval(interval);
     }
-  }, [isPaused]);
+
+    return () => clearInterval(interval);
+  }, [isTransferring, isPaused, malwareDetected]);
+
+  const toggleTransfer = () => {
+    setIsTransferring(!isTransferring);
+    setProgress(0);
+    setDataTransferred("0 MB");
+  };
 
   const togglePause = () => {
     setIsPaused(!isPaused);
@@ -74,26 +86,89 @@ export const Monitor = () => {
     );
   };
 
+  const simulateMalwareDetection = () => {
+    setMalwareDetected(true);
+    setIsTransferring(false);
+    setIsPaused(true);
+    setProgress(0);
+    setDataTransferred("0 MB");
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle>Real-time Monitoring</CardTitle>
-        <CardDescription>Data transfer progress and file format</CardDescription>
+        <CardDescription>Data transfer progress and file information</CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
+      <CardContent className="space-y-4">
+        <div className="grid gap-4">
           <div>
-            <p className="text-sm font-medium">Data Transfer Progress:</p>
-            <Progress value={progress} />
-            <p className="text-sm mt-2">{progress}%</p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm font-medium">Data Transfer Progress:</p>
+              <p className="text-sm">{progress}%</p>
+            </div>
+            <Progress value={progress} className="h-4" />
           </div>
-          <div>
+          <div className="flex items-center justify-between">
             <p className="text-sm font-medium">File Format:</p>
             <p className="text-sm">{fileFormat}</p>
           </div>
-          <Button onClick={togglePause} variant="outline">
-            {isPaused ? "Resume" : "Pause"}
-          </Button>
+          <div className="flex items-center space-x-2">
+            <Button
+              onClick={toggleTransfer}
+              variant="outline"
+              disabled={malwareDetected}
+              className="flex items-center"
+            >
+              {isTransferring ? (
+                <>
+                  <Pause className="w-4 h-4 mr-2" />
+                  Pause Transfer
+                </>
+              ) : (
+                <>
+                  <Play className="w-4 h-4 mr-2" />
+                  Start Transfer
+                </>
+              )}
+            </Button>
+            <Button
+              onClick={togglePause}
+              variant="secondary"
+              disabled={!isTransferring || malwareDetected}
+              className="flex items-center"
+            >
+              {isPaused ? (
+                <>
+                  <Play className="w-4 h-4 mr-2" />
+                  Resume
+                </>
+              ) : (
+                <>
+                  <Pause className="w-4 h-4 mr-2" />
+                  Pause
+                </>
+              )}
+            </Button>
+            <Button
+              onClick={simulateMalwareDetection}
+              variant="destructive"
+              disabled={malwareDetected}
+              className="flex items-center"
+            >
+              {malwareDetected ? (
+                <>
+                  <AlertTriangle className="w-4 h-4 mr-2" />
+                  Malware Detected
+                </>
+              ) : (
+                <>
+                  <ShieldAlert className="w-4 h-4 mr-2" />
+                  Simulate Malware
+                </>
+              )}
+            </Button>
+          </div>
         </div>
 
         <div>
@@ -101,6 +176,7 @@ export const Monitor = () => {
           {connectedDevices.map((device) => (
             <div key={device.id} className="flex items-center justify-between py-2">
               <span>
+                <Disc className="inline-block h-4 w-4 mr-2" />
                 {device.name} (Port {device.port})
               </span>
               <Button variant="outline" size="sm" onClick={() => disconnectDevice(device.id)}>
@@ -110,6 +186,7 @@ export const Monitor = () => {
           ))}
         </div>
       </CardContent>
+
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>

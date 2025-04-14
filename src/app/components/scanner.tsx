@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { scanForMalware, MalwareScanResult } from "@/services/malware-scanner";
 import { useState } from "react";
+import { CheckCircle, AlertTriangle, File, Loader2 } from "lucide-react";
 
 export const Scanner = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -48,40 +49,57 @@ export const Scanner = () => {
     <Card className="w-full">
       <CardHeader>
         <CardTitle>File Scanner</CardTitle>
-        <CardDescription>
-          Manually scan files for malware.
-        </CardDescription>
+        <CardDescription>Manually scan files for malware.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div>
-          <Label htmlFor="file-input">Select File:</Label>
-          <Input
-            type="file"
-            id="file-input"
-            onChange={handleFileSelect}
-            disabled={isScanning}
-          />
-          {selectedFile && (
-            <p className="text-sm mt-2">
-              Selected file: {selectedFile.name}
-            </p>
-          )}
+        <div className="grid gap-2">
+          <Label htmlFor="file-input" className="text-sm font-medium">Select File:</Label>
+          <div className="flex items-center space-x-2">
+            <Input
+              type="file"
+              id="file-input"
+              onChange={handleFileSelect}
+              disabled={isScanning}
+              className="text-sm"
+            />
+            {selectedFile && (
+              <span className="text-gray-500 text-xs italic">
+                Selected: {selectedFile.name}
+              </span>
+            )}
+          </div>
         </div>
         <div>
-          <Button onClick={handleScan} disabled={isScanning} variant="outline">
-            {isScanning ? "Scanning..." : "Scan File"}
+          <Button onClick={handleScan} disabled={isScanning} variant="outline" className="w-full">
+            {isScanning ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Scanning...
+              </>
+            ) : (
+              <>
+                <File className="mr-2 h-4 w-4" />
+                Scan File
+              </>
+            )}
           </Button>
         </div>
 
         {scanResult && (
           <div className="mt-4">
             {scanResult.malwareDetected ? (
-              <div className="p-4 rounded-md bg-red-100 text-sm text-red-700">
-                Malware Detected: {scanResult.message || "Malware found in the file."}
+              <div className="p-4 rounded-md bg-red-100 text-sm text-red-700 flex items-center space-x-2">
+                <AlertTriangle className="h-4 w-4" />
+                <span>
+                  Malware Detected: {scanResult.message || "Malware found in the file."}
+                </span>
               </div>
             ) : (
-              <div className="p-4 rounded-md bg-green-100 text-sm text-green-700">
-                File Safe: {scanResult.message || "No malware detected."}
+              <div className="p-4 rounded-md bg-green-100 text-sm text-green-700 flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4" />
+                <span>
+                  File Safe: {scanResult.message || "No malware detected."}
+                </span>
               </div>
             )}
           </div>

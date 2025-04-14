@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { CheckCircle, AlertTriangle, Info } from "lucide-react";
 
 export const Alerts = () => {
   const { toast } = useToast();
@@ -23,6 +24,7 @@ export const Alerts = () => {
       toast({
         title: "USB Connected",
         description: "A USB device has been connected.",
+        className: "border-primary bg-primary-foreground text-background",
       });
     }, 1000);
 
@@ -42,6 +44,7 @@ export const Alerts = () => {
       toast({
         title: "File Safe",
         description: "The file is safe to use.",
+        className: "border-accent bg-accent-foreground text-background",
       });
     }, 5000);
 
@@ -53,6 +56,7 @@ export const Alerts = () => {
       toast({
         title: "USB Disconnected",
         description: "A USB device has been disconnected.",
+        className: "border-muted bg-muted-foreground text-background",
       });
     }, 7000);
 
@@ -70,24 +74,27 @@ export const Alerts = () => {
         <CardTitle>Alerts</CardTitle>
         <CardDescription>Real-time notifications for system events</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         {usbConnected && (
-          <div className="mb-2 p-2 rounded-md bg-green-100 text-sm text-green-700">
-            USB Connected: A USB device has been connected.
+          <div className="p-3 rounded-md bg-green-50 text-green-900 flex items-center space-x-2">
+            <CheckCircle className="h-4 w-4" />
+            <span>USB Connected: A USB device has been connected.</span>
           </div>
         )}
         {malwareDetected && (
-          <div className="mb-2 p-2 rounded-md bg-red-100 text-sm text-red-700">
-            Malware Detected: USB port blocked temporarily.
+          <div className="p-3 rounded-md bg-red-50 text-red-900 flex items-center space-x-2">
+            <AlertTriangle className="h-4 w-4" />
+            <span>Malware Detected: USB port blocked temporarily.</span>
           </div>
         )}
         {fileSafe && (
-          <div className="mb-2 p-2 rounded-md bg-blue-100 text-sm text-blue-700">
-            File Safe: The file is safe to use.
+          <div className="p-3 rounded-md bg-blue-50 text-blue-900 flex items-center space-x-2">
+            <Info className="h-4 w-4" />
+            <span>File Safe: The file is safe to use.</span>
           </div>
         )}
         {!usbConnected && !malwareDetected && !fileSafe && (
-          <div>No alerts yet.</div>
+          <div className="text-muted-foreground">No alerts yet.</div>
         )}
       </CardContent>
     </Card>
