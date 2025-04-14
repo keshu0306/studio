@@ -10,23 +10,26 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Port Guardian</h1>
-      <Tabs defaultValue="monitor" className="w-[400px]">
-        <TabsList>
-          <TabsTrigger value="monitor">Monitor</TabsTrigger>
-          <TabsTrigger value="settings">Settings</TabsTrigger>
-          <TabsTrigger value="alerts">Alerts</TabsTrigger>
-        </TabsList>
-        <TabsContent value="monitor">
-          <Monitor />
-        </TabsContent>
-        <TabsContent value="settings">
-          <Settings />
-        </TabsContent>
-        <TabsContent value="alerts">
-          <Alerts />
-        </TabsContent>
-      </Tabs>
-      <Toaster/>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <Tabs defaultValue="monitor" className="w-full">
+          <TabsList>
+            <TabsTrigger value="monitor">Monitor</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger value="alerts">Alerts</TabsTrigger>
+          </TabsList>
+          <TabsContent value="monitor">
+            <Monitor />
+          </TabsContent>
+          <TabsContent value="settings">
+            <Settings />
+          </TabsContent>
+          <TabsContent value="alerts">
+            <Alerts />
+          </TabsContent>
+        </Tabs>
+      </div>
+      <Toaster />
     </div>
   );
 }
+
