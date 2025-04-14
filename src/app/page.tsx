@@ -1,11 +1,13 @@
+
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, Tab } from "@nextui-org/react";
 import { Monitor } from "./components/monitor";
 import { Settings } from "./components/settings";
 import { Alerts } from "./components/alerts";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeToggle } from "./components/theme-toggle";
+import React from "react";
 
 export default function Home() {
   return (
@@ -14,22 +16,17 @@ export default function Home() {
         <h1 className="text-2xl font-bold">Port Guardian</h1>
         <ThemeToggle />
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Tabs defaultValue="monitor" className="w-full">
-          <TabsList>
-            <TabsTrigger value="monitor">Monitor</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-            <TabsTrigger value="alerts">Alerts</TabsTrigger>
-          </TabsList>
-          <TabsContent value="monitor">
+      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
+        <Tabs aria-label="Options">
+          <Tab key="monitor" title="Monitor">
             <Monitor />
-          </TabsContent>
-          <TabsContent value="settings">
+          </Tab>
+          <Tab key="settings" title="Settings">
             <Settings />
-          </TabsContent>
-          <TabsContent value="alerts">
+          </Tab>
+          <Tab key="alerts" title="Alerts">
             <Alerts />
-          </TabsContent>
+          </Tab>
         </Tabs>
       </div>
       <Toaster />
