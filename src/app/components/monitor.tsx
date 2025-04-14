@@ -16,6 +16,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
 
+interface UsbDevice {
+  id: string;
+  name: string;
+  port: number;
+}
+
 export const Monitor = () => {
   const [progress, setProgress] = useState(0);
   const [fileFormat, setFileFormat] = useState("Unknown");
@@ -24,6 +30,10 @@ export const Monitor = () => {
   const [transferSpeed, setTransferSpeed] = useState("0 MB/s");
   const [totalSpace, setTotalSpace] = useState("0 GB");
   const [dataTransferred, setDataTransferred] = useState("0 MB");
+  const [connectedDevices, setConnectedDevices] = useState<UsbDevice[]>([
+    { id: "device-1", name: "USB Drive 1", port: 1 },
+    { id: "device-2", name: "Keyboard", port: 2 },
+  ]);
 
   useEffect(() => {
     if (!isPaused) {
@@ -58,6 +68,12 @@ export const Monitor = () => {
     setIsPaused(!isPaused);
   };
 
+  const disconnectDevice = (deviceId: string) => {
+    setConnectedDevices((prevDevices) =>
+      prevDevices.filter((device) => device.id !== deviceId)
+    );
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -78,6 +94,20 @@ export const Monitor = () => {
           <Button onClick={togglePause} variant="outline">
             {isPaused ? "Resume" : "Pause"}
           </Button>
+        </div>
+
+        <div>
+          <p className="text-sm font-medium">Connected Devices ({connectedDevices.length}):</p>
+          {connectedDevices.map((device) => (
+            <div key={device.id} className="flex items-center justify-between py-2">
+              <span>
+                {device.name} (Port {device.port})
+              </span>
+              <Button variant="outline" size="sm" onClick={() => disconnectDevice(device.id)}>
+                Disconnect
+              </Button>
+            </div>
+          ))}
         </div>
       </CardContent>
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
