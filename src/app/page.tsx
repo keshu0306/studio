@@ -8,14 +8,14 @@ import { ThemeToggle } from "./components/theme-toggle";
 import React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Scanner } from "./components/scanner";
-import { Usb, Settings as SettingIcon, Bell, Scan, Activity, ShieldAlert } from "lucide-react";
+import { Disc, Settings as SettingIcon, Bell, Scan, Activity } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold flex items-center text-primary">
-          <Usb className="mr-2 h-6 w-6" />
+          <Disc className="mr-2 h-6 w-6" />
           Port Guardian
         </h1>
         <ThemeToggle />
