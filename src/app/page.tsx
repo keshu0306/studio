@@ -5,11 +5,15 @@ import { Monitor } from "./components/monitor";
 import { Settings } from "./components/settings";
 import { Alerts } from "./components/alerts";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeToggle } from "./components/theme-toggle";
 
 export default function Home() {
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Port Guardian</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Port Guardian</h1>
+        <ThemeToggle />
+      </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Tabs defaultValue="monitor" className="w-full">
           <TabsList>
@@ -32,4 +36,3 @@ export default function Home() {
     </div>
   );
 }
-
