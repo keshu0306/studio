@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeToggle } from "./components/theme-toggle";
 import React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Scanner } from "./components/scanner";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
             <TabsTrigger value="monitor">Monitor</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
             <TabsTrigger value="alerts">Alerts</TabsTrigger>
+            <TabsTrigger value="scanner">Scanner</TabsTrigger>
           </TabsList>
           <TabsContent value="monitor">
             <Monitor />
@@ -31,9 +33,13 @@ export default function Home() {
           <TabsContent value="alerts">
             <Alerts />
           </TabsContent>
+          <TabsContent value="scanner">
+            <Scanner />
+          </TabsContent>
         </Tabs>
       </div>
       <Toaster />
     </div>
   );
 }
+
