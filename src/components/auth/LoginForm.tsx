@@ -49,7 +49,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md shadow-xl">
+    <Card className="w-full max-w-md shadow-xl bg-accent/[.10] backdrop-blur-md border-border">
       <CardHeader className="items-center text-center">
         <Logo className="mb-4 h-10 w-auto" />
         <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
@@ -67,7 +67,7 @@ export function LoginForm() {
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                     <FormControl>
-                      <Input type="email" placeholder="you@example.com" {...field} className="pl-10" />
+                      <Input type="email" placeholder="you@example.com" {...field} className="pl-10 bg-background/70" />
                     </FormControl>
                   </div>
                   <FormMessage />
@@ -83,7 +83,7 @@ export function LoginForm() {
                    <div className="relative">
                     <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} className="pl-10" />
+                      <Input type="password" placeholder="••••••••" {...field} className="pl-10 bg-background/70" />
                     </FormControl>
                   </div>
                   <FormMessage />

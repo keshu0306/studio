@@ -2,7 +2,11 @@ import type { ReactNode } from 'react';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+    <main
+      className="flex min-h-screen flex-col items-center justify-center p-4 bg-cover bg-center"
+      style={{ backgroundImage: "url('https://picsum.photos/1920/1080?random=1')" }} // Added random query param to ensure different image
+      data-ai-hint="cosmos nebula"
+    >
       {children}
     </main>
   );
