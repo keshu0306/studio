@@ -4,8 +4,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-center p-4 bg-cover bg-center"
-      style={{ backgroundImage: "url('https://picsum.photos/1920/1080?random=1')" }} // Added random query param to ensure different image
-      data-ai-hint="cosmos nebula"
+      style={{ backgroundImage: "url('https://picsum.photos/1920/1080?random=2')" }} // Changed random query param
+      data-ai-hint="dark cosmos"
     >
       {children}
     </main>

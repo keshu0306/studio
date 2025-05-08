@@ -54,11 +54,11 @@ export function SignUpForm() {
   }
 
   return (
-    <Card className="w-full max-w-md shadow-xl bg-accent/[.10] backdrop-blur-md border-border">
+    <Card className="w-full max-w-md shadow-xl bg-pink-500/[.10] backdrop-blur-md border-border">
       <CardHeader className="items-center text-center">
         <Logo className="mb-4 h-10 w-auto" />
-        <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
-        <CardDescription>Get started with AuthFlow today!</CardDescription>
+        <CardTitle className="text-2xl font-bold">WELCOME</CardTitle>
+        <CardDescription>LETS BEGIN A NEW JOURNEY!</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
