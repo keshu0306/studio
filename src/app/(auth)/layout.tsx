@@ -7,7 +7,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     <main
       className="relative flex min-h-screen flex-col items-center justify-center p-4"
     >
-      <div className="absolute top-4 left-4">
+      <div className="absolute top-4 right-4"> {/* Changed left-4 to right-4 */}
         <Link href="/dashboard">
           <Button variant="outline" size="sm">
             start
