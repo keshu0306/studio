@@ -65,9 +65,6 @@ export function SignUpForm() {
         <Logo className="mb-4 h-10 w-auto" />
         <CardTitle className="text-2xl font-bold">WELCOME</CardTitle>
         <CardDescription>LETS BEGIN A NEW JOURNEY!</CardDescription>
-         <Link href="/dashboard" className="mt-2">
-           <Button variant="outline" size="sm">start</Button>
-        </Link>
       </CardHeader>
       <CardContent>
         <Form {...form}>

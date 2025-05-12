@@ -58,9 +58,6 @@ export function LoginForm() {
         <Logo className="mb-4 h-10 w-auto" />
         <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
         <CardDescription>Log in to explore the space.</CardDescription>
-        <Link href="/dashboard" className="mt-2">
-           <Button variant="outline" size="sm">start</Button>
-        </Link>
       </CardHeader>
       <CardContent>
         <Form {...form}>
