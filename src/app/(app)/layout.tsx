@@ -13,10 +13,10 @@ import {
   SidebarFooter,
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Home, Settings, User, LogOut } from 'lucide-react';
+import { Home, Settings, User, LogOut, Pencil } from 'lucide-react'; // Added Pencil
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-import { Logo } from '@/components/Logo'; // Assuming Logo component exists
+import { Button } from '@/components/ui/button'; // Ensured Button is imported
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
@@ -25,14 +25,21 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <SidebarHeader>
           <div className="flex items-center gap-2">
              <Avatar className="h-8 w-8">
-                {/* Placeholder for user image - replace src if available */}
-                <AvatarImage src="https://picsum.photos/40/40" alt="Image to be added by user" data-ai-hint="profile avatar" />
-                <AvatarFallback>U</AvatarFallback> {/* Fallback initials */}
+                <AvatarImage src="https://picsum.photos/40/40" alt="User profile avatar" data-ai-hint="profile avatar" />
+                <AvatarFallback>U</AvatarFallback>
              </Avatar>
-             {/* Name displayed next to avatar, hidden when collapsed */}
              <span className="text-sm font-semibold group-data-[collapsible=icon]:hidden">
-               User Name {/* Changed from 'start' to 'User Name' */}
+               User Name
              </span>
+             {/* Edit Profile Button */}
+             <Button 
+               variant="ghost" 
+               size="icon" 
+               className="h-6 w-6 p-0 group-data-[collapsible=icon]:hidden ml-1" // Adjusted size and added margin
+               aria-label="Edit Profile"
+             >
+                <Pencil className="h-3.5 w-3.5" />
+             </Button>
           </div>
           <SidebarTrigger className="ml-auto group-data-[collapsible=icon]:hidden" />
         </SidebarHeader>
@@ -58,15 +65,11 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
-
-          {/* Projects Group Removed */}
-
         </SidebarContent>
         <Separator />
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              {/* Use Link for navigation, wrapped in button for styling/tooltip */}
               <SidebarMenuButton asChild tooltip="Log Out">
                 <Link href="/login">
                   <LogOut />
@@ -81,4 +84,3 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     </SidebarProvider>
   );
 }
-
