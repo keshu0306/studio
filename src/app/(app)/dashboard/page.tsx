@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
-import { BarChart } from "lucide-react"; // Example icon
+import { Bell } from "lucide-react"; // Changed to Bell for Notifications
 
 export default function DashboardPage() {
   return (
@@ -10,31 +10,13 @@ export default function DashboardPage() {
       <h1 className="text-2xl font-bold mb-6 text-foreground">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {/* Example Cards */}
+        {/* Notifications Card */}
         <Card className="shadow-lg backdrop-blur-sm bg-card/70 border-border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-               <BarChart className="w-5 h-5" />
-              Active Users
+              <Bell className="w-5 h-5" /> {/* Icon for Notifications */}
+              Notifications
             </CardTitle>
-            <CardDescription>Current users online</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">1,234</p>
-          </CardContent>
-        </Card>
-        <Card className="shadow-lg backdrop-blur-sm bg-card/70 border-border">
-          <CardHeader>
-            <CardTitle>Revenue</CardTitle>
-            <CardDescription>This month's earnings</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">$5,678</p>
-          </CardContent>
-        </Card>
-         <Card className="shadow-lg backdrop-blur-sm bg-card/70 border-border">
-          <CardHeader>
-            <CardTitle>Notifications</CardTitle>
             <CardDescription>Recent alerts</CardDescription>
           </CardHeader>
           <CardContent>
