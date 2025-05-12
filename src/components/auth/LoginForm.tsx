@@ -46,7 +46,10 @@ export function LoginForm() {
       title: "Login Submitted",
       description: "Check the console for form data. In a real app, this would log you in.",
     });
-    // form.reset(); // Optionally reset form
+    // Redirect or handle successful login
+    // import { useRouter } from 'next/navigation';
+    // const router = useRouter();
+    // router.push('/dashboard');
   }
 
   return (
@@ -54,7 +57,10 @@ export function LoginForm() {
       <CardHeader className="items-center text-center">
         <Logo className="mb-4 h-10 w-auto" />
         <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
-        <CardDescription>Log in to explore the space.</CardDescription> {/* Changed AuthFlow to STAR-LORD & Sign in to Log in */}
+        <CardDescription>Log in to explore the space.</CardDescription>
+        <Link href="/dashboard" className="mt-2">
+           <Button variant="outline" size="sm">start</Button>
+        </Link>
       </CardHeader>
       <CardContent>
         <Form {...form}>

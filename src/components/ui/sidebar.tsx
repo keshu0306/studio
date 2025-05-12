@@ -1,6 +1,8 @@
+
 "use client"
 
 import * as React from "react"
+import Link from "next/link"; // Added import for Link
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
@@ -10,7 +12,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { Sheet, SheetContent } from "@/components/ui/sheet" // Added SheetContent import
 import { Skeleton } from "@/components/ui/skeleton"
 import {
   Tooltip,
@@ -72,7 +74,20 @@ const SidebarProvider = React.forwardRef<
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = React.useState(defaultOpen)
+    const [_open, _setOpen] = React.useState(() => {
+       // Read initial state from cookie if available on client
+       if (typeof window !== 'undefined') {
+         const cookieValue = document.cookie
+           .split('; ')
+           .find((row) => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`))
+           ?.split('=')[1];
+         if (cookieValue) {
+           return cookieValue === 'true';
+         }
+       }
+       return defaultOpen;
+    });
+
     const open = openProp ?? _open
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
@@ -84,7 +99,9 @@ const SidebarProvider = React.forwardRef<
         }
 
         // This sets the cookie to keep the sidebar state.
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+        if (typeof window !== 'undefined') {
+            document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+        }
       },
       [setOpenProp, open]
     )
@@ -168,7 +185,7 @@ const Sidebar = React.forwardRef<
     {
       side = "left",
       variant = "sidebar",
-      collapsible = "offcanvas",
+      collapsible = "icon", // Changed default to icon
       className,
       children,
       ...props
@@ -358,7 +375,7 @@ const SidebarHeader = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="header"
-      className={cn("flex flex-col gap-2 p-2", className)}
+      className={cn("flex items-center min-h-[3.5rem] gap-2 p-2", className)} // Added min-h and items-center
       {...props}
     />
   )
@@ -373,7 +390,7 @@ const SidebarFooter = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="footer"
-      className={cn("flex flex-col gap-2 p-2", className)}
+      className={cn("flex flex-col gap-2 p-2 mt-auto", className)} // Added mt-auto
       {...props}
     />
   )
@@ -533,13 +550,20 @@ const sidebarMenuButtonVariants = cva(
   }
 )
 
+// Define props for SidebarMenuButton including potential href for Link
+interface SidebarMenuButtonProps
+  extends Omit<React.ComponentProps<typeof Button>, "href">, // Omit button's native href
+    VariantProps<typeof sidebarMenuButtonVariants> {
+  asChild?: boolean;
+  isActive?: boolean;
+  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  href?: string; // Add href specifically for Link usage
+}
+
+
 const SidebarMenuButton = React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentProps<"button"> & {
-    asChild?: boolean
-    isActive?: boolean
-    tooltip?: string | React.ComponentProps<typeof TooltipContent>
-  } & VariantProps<typeof sidebarMenuButtonVariants>
+  HTMLButtonElement, // Default ref type
+  SidebarMenuButtonProps
 >(
   (
     {
@@ -548,49 +572,64 @@ const SidebarMenuButton = React.forwardRef<
       variant = "default",
       size = "default",
       tooltip,
+      href, // Destructure href
       className,
+      children, // Capture children
       ...props
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button"
-    const { isMobile, state } = useSidebar()
+    const { isMobile, state } = useSidebar();
+    const Comp = asChild ? Slot : (href ? 'a' : 'button'); // Use 'a' if href is present and not asChild
 
-    const button = (
+    // Determine the component and its props based on href and asChild
+    const buttonElement = (
       <Comp
-        ref={ref}
+         // If using Link via asChild, ref needs to be handled by the Link component itself
+         // Otherwise, apply the ref to the button or anchor tag
+        ref={ref as any} // Cast ref type as needed depending on Comp
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-        {...props}
-      />
-    )
+        className={cn(sidebarMenuButtonVariants({ variant, size, className }))}
+         // Pass href only if Comp is 'a' or if asChild is true (Link will handle it)
+        {...(Comp === 'a' && href ? { href } : {})}
+        {...props} // Pass remaining props
+      >
+       {children}
+      </Comp>
+    );
+
+    // Wrap with Link if href is provided and asChild is true
+    const finalButton = asChild && href ? (
+        <Link href={href} passHref legacyBehavior>
+             {buttonElement}
+        </Link>
+    ) : buttonElement;
+
 
     if (!tooltip) {
-      return button
+      return finalButton;
     }
 
-    if (typeof tooltip === "string") {
-      tooltip = {
-        children: tooltip,
-      }
-    }
+    // Tooltip logic
+    const tooltipContentProps = typeof tooltip === "string" ? { children: tooltip } : tooltip;
 
     return (
       <Tooltip>
-        <TooltipTrigger asChild>{button}</TooltipTrigger>
+        <TooltipTrigger asChild>{finalButton}</TooltipTrigger>
         <TooltipContent
           side="right"
           align="center"
           hidden={state !== "collapsed" || isMobile}
-          {...tooltip}
+          {...tooltipContentProps}
         />
       </Tooltip>
-    )
+    );
   }
-)
-SidebarMenuButton.displayName = "SidebarMenuButton"
+);
+SidebarMenuButton.displayName = "SidebarMenuButton";
+
 
 const SidebarMenuAction = React.forwardRef<
   HTMLButtonElement,
@@ -606,12 +645,12 @@ const SidebarMenuAction = React.forwardRef<
       ref={ref}
       data-sidebar="menu-action"
       className={cn(
-        "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-sidebar-accent-foreground [&>svg]:size-4 [&>svg]:shrink-0",
+        "absolute right-1 top-1/2 -translate-y-1/2 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-sidebar-accent-foreground [&>svg]:size-4 [&>svg]:shrink-0", // Centered vertically
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 after:md:hidden",
-        "peer-data-[size=sm]/menu-button:top-1",
-        "peer-data-[size=default]/menu-button:top-1.5",
-        "peer-data-[size=lg]/menu-button:top-2.5",
+        //"peer-data-[size=sm]/menu-button:top-1", // Removed fixed top values
+        //"peer-data-[size=default]/menu-button:top-1.5",
+        //"peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
           "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
@@ -631,11 +670,11 @@ const SidebarMenuBadge = React.forwardRef<
     ref={ref}
     data-sidebar="menu-badge"
     className={cn(
-      "absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground select-none pointer-events-none",
+      "absolute right-1 top-1/2 -translate-y-1/2 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground select-none pointer-events-none", // Centered vertically
       "peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground",
-      "peer-data-[size=sm]/menu-button:top-1",
-      "peer-data-[size=default]/menu-button:top-1.5",
-      "peer-data-[size=lg]/menu-button:top-2.5",
+     // "peer-data-[size=sm]/menu-button:top-1", // Removed fixed top values
+     // "peer-data-[size=default]/menu-button:top-1.5",
+     // "peer-data-[size=lg]/menu-button:top-2.5",
       "group-data-[collapsible=icon]:hidden",
       className
     )}
@@ -706,18 +745,18 @@ const SidebarMenuSubItem = React.forwardRef<
 SidebarMenuSubItem.displayName = "SidebarMenuSubItem"
 
 const SidebarMenuSubButton = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentProps<"a"> & {
+  HTMLAnchorElement, // Default ref type is anchor
+  React.ComponentProps<"a"> & { // Default props type is anchor
     asChild?: boolean
     size?: "sm" | "md"
     isActive?: boolean
   }
->(({ asChild = false, size = "md", isActive, className, ...props }, ref) => {
+>(({ asChild = false, size = "md", isActive, className, children, ...props }, ref) => {
   const Comp = asChild ? Slot : "a"
 
   return (
-    <Comp
-      ref={ref}
+     <Comp
+      ref={ref as any} // Cast ref type as needed
       data-sidebar="menu-sub-button"
       data-size={size}
       data-active={isActive}
@@ -729,8 +768,10 @@ const SidebarMenuSubButton = React.forwardRef<
         "group-data-[collapsible=icon]:hidden",
         className
       )}
-      {...props}
-    />
+      {...props} // Pass remaining props like href, onClick etc.
+    >
+        {children}
+    </Comp>
   )
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
@@ -761,3 +802,4 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+
