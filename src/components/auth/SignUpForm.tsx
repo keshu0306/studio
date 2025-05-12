@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
-import { Mail, Lock, UserPlus } from "lucide-react";
+import { Mail, Lock, UserPlus, User } from "lucide-react"; // Added User icon
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ import { Logo } from "@/components/Logo";
 import { useToast } from "@/hooks/use-toast";
 
 const signUpFormSchema = z.object({
+  username: z.string().min(3, { message: "Username must be at least 3 characters long." }), // Added username field
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters long." }),
   confirmPassword: z.string(),
@@ -37,6 +38,7 @@ export function SignUpForm() {
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
+      username: "", // Added default value for username
       email: "",
       password: "",
       confirmPassword: "",
@@ -46,7 +48,7 @@ export function SignUpForm() {
   async function onSubmit(values: SignUpFormValues) {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log("Sign up data:", values);
+    console.log("Sign up data:", values); // Log includes username now
     toast({
       title: "Sign Up Successful",
       description: "Check the console for form data. Your account would be created now.",
@@ -65,6 +67,22 @@ export function SignUpForm() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
+              control={form.control}
+              name="username" // Added username field
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                   <div className="relative">
+                      <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" /> {/* Added User icon */}
+                      <Input type="text" placeholder="Choose a username" {...field} className="pl-10 bg-background/70" />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
