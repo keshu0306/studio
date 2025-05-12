@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarGroupContent, // Added SidebarGroupContent import
+  SidebarGroupContent,
   SidebarFooter,
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -34,7 +34,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
              </Avatar>
              {/* Name displayed next to avatar, hidden when collapsed */}
              <span className="text-sm font-semibold group-data-[collapsible=icon]:hidden">
-               start
+               User Name {/* Changed from 'start' to 'User Name' */}
              </span>
           </div>
           <SidebarTrigger className="ml-auto group-data-[collapsible=icon]:hidden" />
