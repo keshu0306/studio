@@ -54,7 +54,7 @@ export function LoginForm() {
       <CardHeader className="items-center text-center">
         <Logo className="mb-4 h-10 w-auto" />
         <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
-        <CardDescription>Log in to continue to STAR-LORD.</CardDescription> {/* Changed AuthFlow to STAR-LORD & Sign in to Log in */}
+        <CardDescription>Log in to explore the space.</CardDescription> {/* Changed AuthFlow to STAR-LORD & Sign in to Log in */}
       </CardHeader>
       <CardContent>
         <Form {...form}>
