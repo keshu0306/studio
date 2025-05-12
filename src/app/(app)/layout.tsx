@@ -26,7 +26,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-2">
              <Avatar className="h-8 w-8">
                 {/* Placeholder for user image - replace src if available */}
-                <AvatarImage src="https://picsum.photos/40/40" alt="@shadcn" data-ai-hint="profile avatar" />
+                <AvatarImage src="https://picsum.photos/40/40" alt="Image to be added by user" data-ai-hint="profile avatar" />
                 <AvatarFallback>U</AvatarFallback> {/* Fallback initials */}
              </Avatar>
              {/* Name displayed next to avatar, hidden when collapsed */}
