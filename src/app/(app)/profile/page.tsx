@@ -98,11 +98,6 @@ export default function ProfilePage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
-                    {/* FormControl should ideally wrap the Input directly if there are no sibling icons in the same interactive layer.
-                        However, the current structure with div inside FormControl is common in examples.
-                        For consistency with Gender/Country/DOB, FormControl would wrap Input and div.relative would be outside.
-                        Keeping as is for now as only DOB was requested to change.
-                    */}
                     <FormControl>
                       <div className="relative">
                         <UserCircle className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
@@ -122,7 +117,7 @@ export default function ProfilePage() {
                     <FormLabel>Gender</FormLabel>
                     <div className="relative">
                        <VenetianMask className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground z-10" />
-                      <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger className="pl-10 bg-background/70">
                             <SelectValue placeholder="Select your gender" />
@@ -158,7 +153,6 @@ export default function ProfilePage() {
                                 !field.value && "text-muted-foreground"
                               )}
                             >
-                              {/* Cake icon removed from here */}
                               {field.value ? (
                                 format(field.value, "PPP")
                               ) : (
@@ -194,7 +188,7 @@ export default function ProfilePage() {
                     <FormLabel>Country</FormLabel>
                      <div className="relative">
                         <Globe className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground z-10" />
-                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger className="pl-10 bg-background/70">
                               <SelectValue placeholder="Select your country" />
