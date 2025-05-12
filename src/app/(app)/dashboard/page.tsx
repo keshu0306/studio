@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
-import { Bell } from "lucide-react"; // Changed to Bell for Notifications
+import { Bell, Bookmark } from "lucide-react"; // Changed to Bell for Notifications, Added Bookmark
 
 export default function DashboardPage() {
   return (
@@ -22,6 +22,21 @@ export default function DashboardPage() {
           <CardContent>
              <p className="text-3xl font-bold">3</p>
             <Button variant="outline" size="sm" className="mt-2">View Alerts</Button>
+          </CardContent>
+        </Card>
+
+        {/* My Saved Events Card */}
+        <Card className="shadow-lg backdrop-blur-sm bg-card/70 border-border">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Bookmark className="w-5 h-5" />
+              My Saved Events
+            </CardTitle>
+            <CardDescription>Events you've bookmarked</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold">5</p> {/* Placeholder count */}
+            <Button variant="outline" size="sm" className="mt-2">View Events</Button>
           </CardContent>
         </Card>
       </div>
@@ -48,3 +63,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+
