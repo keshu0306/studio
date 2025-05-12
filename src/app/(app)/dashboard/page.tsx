@@ -20,7 +20,7 @@ export default function DashboardPage() {
             <CardDescription>Recent alerts</CardDescription>
           </CardHeader>
           <CardContent>
-             <p className="text-3xl font-bold">3</p>
+             <p className="text-3xl font-bold">0</p>
             <Button variant="outline" size="sm" className="mt-2">View Alerts</Button>
           </CardContent>
         </Card>
@@ -35,7 +35,7 @@ export default function DashboardPage() {
             <CardDescription>Events you've bookmarked</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">5</p> {/* Placeholder count */}
+            <p className="text-3xl font-bold">0</p> {/* Placeholder count */}
             <Button variant="outline" size="sm" className="mt-2">View Events</Button>
           </CardContent>
         </Card>
