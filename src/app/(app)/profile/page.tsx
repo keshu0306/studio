@@ -1,4 +1,3 @@
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,7 +34,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const profileFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
-  gender: z.enum(["male", "female", "prefer_not_to_say"], { // Updated enum
+  gender: z.enum(["male", "female", "prefer_not_to_say"], {
     required_error: "Gender is required.",
   }),
   dob: z.date({
@@ -99,6 +98,11 @@ export default function ProfilePage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
+                    {/* FormControl should ideally wrap the Input directly if there are no sibling icons in the same interactive layer.
+                        However, the current structure with div inside FormControl is common in examples.
+                        For consistency with Gender/Country/DOB, FormControl would wrap Input and div.relative would be outside.
+                        Keeping as is for now as only DOB was requested to change.
+                    */}
                     <FormControl>
                       <div className="relative">
                         <UserCircle className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
@@ -142,38 +146,41 @@ export default function ProfilePage() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Date of Birth</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full pl-10 text-left font-normal bg-background/70",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            <Cake className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <div className="relative"> {/* Added relative div wrapper */}
+                      <Cake className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground z-10" /> {/* Icon as sibling to Popover */}
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-10 text-left font-normal bg-background/70", // pl-10 for the Cake icon
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {/* Cake icon removed from here */}
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -217,4 +224,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
