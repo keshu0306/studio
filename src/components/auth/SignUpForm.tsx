@@ -70,12 +70,12 @@ export function SignUpForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
+                  <FormControl>
                    <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                    <FormControl>
+                      <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                       <Input type="email" placeholder="you@example.com" {...field} className="pl-10 bg-background/70" />
-                    </FormControl>
-                  </div>
+                    </div>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -86,12 +86,12 @@ export function SignUpForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                    <FormControl>
+                   <FormControl>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                       <Input type="password" placeholder="••••••••" {...field} className="pl-10 bg-background/70" />
-                    </FormControl>
-                  </div>
+                    </div>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -102,12 +102,12 @@ export function SignUpForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                    <FormControl>
+                  <FormControl>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                       <Input type="password" placeholder="••••••••" {...field} className="pl-10 bg-background/70" />
-                    </FormControl>
-                  </div>
+                    </div>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -129,3 +129,4 @@ export function SignUpForm() {
     </Card>
   );
 }
+

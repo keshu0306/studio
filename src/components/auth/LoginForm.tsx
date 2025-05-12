@@ -65,12 +65,12 @@ export function LoginForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel> {/* Changed label */}
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" /> {/* Changed icon */}
-                    <FormControl>
+                   <FormControl>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" /> {/* Changed icon */}
                       <Input type="text" placeholder="Enter your username" {...field} className="pl-10 bg-background/70" /> {/* Changed type and placeholder */}
-                    </FormControl>
-                  </div>
+                    </div>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -81,25 +81,24 @@ export function LoginForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
+                  <FormControl>
                    <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                    <FormControl>
+                      <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                       <Input type="password" placeholder="••••••••" {...field} className="pl-10 bg-background/70" />
-                    </FormControl>
-                  </div>
+                    </div>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting ? (
-                'Logging In...' // Use simple text when loading
+                'Logging In...'
               ) : (
-                // Removed unnecessary fragment wrapper
-                  <>
-                    <LogIn className="mr-2 h-5 w-5" />
-                     Login
-                   </>
+                 <>
+                   <LogIn className="mr-2 h-5 w-5" />
+                   Login
+                 </>
               )}
             </Button>
           </form>
@@ -116,3 +115,4 @@ export function LoginForm() {
     </Card>
   );
 }
+
