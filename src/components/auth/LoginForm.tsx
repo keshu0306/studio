@@ -1,10 +1,11 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
-import { Mail, Lock, LogIn } from "lucide-react";
+import { User, Lock, LogIn } from "lucide-react"; // Changed Mail to User
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,7 @@ import { Logo } from "@/components/Logo";
 import { useToast } from "@/hooks/use-toast";
 
 const loginFormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  username: z.string().min(1, { message: "Username is required." }), // Changed email to username
   password: z.string().min(1, { message: "Password is required." }),
 });
 
@@ -32,7 +33,7 @@ export function LoginForm() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
+      username: "", // Changed email to username
       password: "",
     },
   });
@@ -53,21 +54,21 @@ export function LoginForm() {
       <CardHeader className="items-center text-center">
         <Logo className="mb-4 h-10 w-auto" />
         <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
-        <CardDescription>Sign in to continue to AuthFlow.</CardDescription>
+        <CardDescription>Log in to continue to STAR-LORD.</CardDescription> {/* Changed AuthFlow to STAR-LORD & Sign in to Log in */}
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="email"
+              name="username" // Changed name from email to username
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel>Username</FormLabel> {/* Changed label */}
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                    <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" /> {/* Changed icon */}
                     <FormControl>
-                      <Input type="email" placeholder="you@example.com" {...field} className="pl-10 bg-background/70" />
+                      <Input type="text" placeholder="Enter your username" {...field} className="pl-10 bg-background/70" /> {/* Changed type and placeholder */}
                     </FormControl>
                   </div>
                   <FormMessage />
@@ -91,7 +92,15 @@ export function LoginForm() {
               )}
             />
             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Signing In..." : <> <LogIn className="mr-2 h-5 w-5" /> Sign In</>}
+              {form.formState.isSubmitting ? (
+                'Logging In...' // Use simple text when loading
+              ) : (
+                // Removed unnecessary fragment wrapper
+                  <>
+                    <LogIn className="mr-2 h-5 w-5" />
+                     Login
+                   </>
+              )}
             </Button>
           </form>
         </Form>

@@ -1,9 +1,10 @@
+
 import { LoginForm } from "@/components/auth/LoginForm";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Login - AuthFlow',
-  description: 'Sign in to your AuthFlow account.',
+  title: 'Login - STAR-LORD', // Updated title
+  description: 'Log in to your STAR-LORD account.', // Updated description
 };
 
 export default function LoginPage() {
