@@ -35,7 +35,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const profileFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
-  gender: z.enum(["male", "female", "other", "prefer_not_to_say"], {
+  gender: z.enum(["male", "female", "prefer_not_to_say"], { // Updated enum
     required_error: "Gender is required.",
   }),
   dob: z.date({
@@ -127,7 +127,6 @@ export default function ProfilePage() {
                         <SelectContent>
                           <SelectItem value="male">Male</SelectItem>
                           <SelectItem value="female">Female</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
                           <SelectItem value="prefer_not_to_say">Prefer not to say</SelectItem>
                         </SelectContent>
                       </Select>
@@ -218,3 +217,4 @@ export default function ProfilePage() {
     </div>
   );
 }
+
