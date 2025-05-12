@@ -44,7 +44,7 @@ export default function DashboardPage() {
       {/* Example Content Area */}
        <Card className="flex-1 shadow-lg backdrop-blur-sm bg-card/70 border-border">
         <CardHeader>
-          <CardTitle>Welcome, start!</CardTitle>
+          <CardTitle>Welcome to the cosmos</CardTitle>
           <CardDescription>Here's what's happening in your space.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center">
